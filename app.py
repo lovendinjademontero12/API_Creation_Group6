@@ -18,7 +18,7 @@ attendance = [
         "student_name": "Agustin, Kian Gabriel P.",
         "date": "2026-11-15",
         "event": "awarding of most handsome person in the world",
-        "status": "Present po ako po",
+        "status": "present",
     }
 ]
 
@@ -52,6 +52,15 @@ def get_all_attendance():
         "data": attendance
     }), 200
 
+#Kim part get method to get attendance by id
+@app.route("/attendance/<string:student_id>", methods=["GET"])
+def get_attendance_by_studentID(student_id):
+    records = [r for r in attendance if r["student_id"] == student_id]
+    if not records:
+        return jsonify({"success": False, "message": "Student not found"}), 404
+    return jsonify({"success": True, "data": records}), 200
+
+
 #Pogi na RUSSELL PART POST METHOD TO ADD ATTENDANCE
 @app.route('/post/attendance', methods=['POST'])
 def add_attendance():
@@ -67,7 +76,7 @@ def add_attendance():
     student_name = data.get("student_name")
     attendance_date = data.get("date", str(date.today()))
     event = data.get("event", "No event specified")
-    status = data.get("status", "Present")
+    status = data.get("status", "present")
 
     if not student_id or not student_name:
         return jsonify({
