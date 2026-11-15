@@ -32,5 +32,15 @@ def next_id():
 def home():
     return jsonify({"message": "Campus Event Attendance API is running"})
 
+#KIAN PART GET METHOD TO LIST ALL ATTENDANCE
+@app.route("/attendance", methods=["GET"])
+def get_all_attendance():
+    """Retrieve all attendance records."""
+    return jsonify({
+        "success": True,
+        "count": len(attendance),
+        "data": attendance
+    }), 200
+
 if __name__ == "__main__":
     app.run(debug=True)
