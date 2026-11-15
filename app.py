@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from datetime import date
 
 app = Flask(__name__)
 
@@ -15,7 +16,7 @@ attendance = [
         "student_id": "2024-0002",
         "student_name": "Agustin, Kian Gabriel P.",
         "event": "awarding of most handsome person in the world",
-        "status": "present",
+        "status": "Present po ako po",
     }
 ]
 
@@ -49,5 +50,51 @@ def get_all_attendance():
         "data": attendance
     }), 200
 
+
+#Pogi na RUSSELL PART POST METHOD TO ADD ATTENDANCE
+@app.route('/post/attendance', methods=['POST'])
+def add_attendance():
+
+    data = request.get_json(silent=True)
+
+    if not isinstance(data, dict):
+        return jsonify({
+            "error": "Invalid JSON request"
+        }), 400
+
+    student_id = data.get("student_id")
+    student_name = data.get("student_name")
+    attendance_date = data.get("date", str(date.today()))
+    event = data.get("event", "No event specified")
+    status = data.get("status", "Present")
+
+    if not student_id or not student_name:
+        return jsonify({
+            "error": "Student ID and student name are required"
+        }), 400
+
+    if not isinstance(status, str) or status.lower() not in VALID_STATUSES:
+        return jsonify({
+            "error": "Invalid status. Use present, late, or absent."
+        }), 400
+
+    new_record = {
+        "id": next_id(),
+        "student_id": student_id,
+        "student_name": student_name,
+        "date": attendance_date,
+        "event": event,
+        "status": status.lower()
+    }
+
+    attendance.append(new_record)
+
+    return jsonify({
+        "message": "Attendance added successfully!",
+        "attendance": new_record
+    }), 201
+
+
 if __name__ == "__main__":
     app.run(debug=True)
+
