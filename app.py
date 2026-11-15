@@ -17,6 +17,12 @@ attendance = [
         "event": "awarding of most handsome person in the world",
         "status": "present",
     }
+    {"id: 3
+     "student_id": "2024-0002",
+     "student_name": "David Kimberly p.",
+     "event": "pak ganern competition",
+     "status": "present",
+    }
 ]
 
 VALID_STATUSES = ["present", "late", "absent"]
@@ -48,6 +54,12 @@ def get_all_attendance():
         "count": len(attendance),
         "data": attendance
     }), 200
-
+#Kim part get method to get attendance by id
+@app.route("/attendance/<student_id>", methods=["GET"])
+def get_attendance_by_studentID(student_id):
+    records = [r for r in attendance if r["student_id"] == student_id]
+    if not records:
+        return jsonify({"success": False, "message": "Student not found"}), 404
+    return jsonify({"success": True, "data": records}), 200
 if __name__ == "__main__":
     app.run(debug=True)
