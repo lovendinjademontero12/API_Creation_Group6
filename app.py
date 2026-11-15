@@ -122,6 +122,21 @@ def update_attendance(record_id):
 
     return jsonify(record), 200
 
+# its DELETE part po to
+@app.route("/attendance/<int:record_id>", methods=["DELETE"])
+def delete_attendance(record_id):
+    record = find_record(record_id)
+
+    if record is None:
+        return jsonify({"error": "Record not found"}), 404
+
+    attendance.remove(record)
+
+    return jsonify({
+        "message": "Attendance deleted successfully!",
+        "deleted_attendance": record
+    }), 200
+
 if __name__ == "__main__":
     app.run(debug=True)
 
