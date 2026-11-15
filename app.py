@@ -9,6 +9,13 @@ attendance = [
         "student_name": "Montero, Lovendin Jade D.",
         "event": "event ng mga pogi lang.",
         "status": "present",
+    },
+    {
+        "id": 2,
+        "student_id": "2024-0002",
+        "student_name": "Agustin, Kian Gabriel P.",
+        "event": "awarding of most handsome person in the world",
+        "status": "present",
     }
 ]
 
@@ -31,6 +38,16 @@ def next_id():
 @app.route("/")
 def home():
     return jsonify({"message": "Campus Event Attendance API is running"})
+
+#KIAN PART GET METHOD TO LIST ALL ATTENDANCE
+@app.route("/attendance", methods=["GET"])
+def get_all_attendance():
+    """Retrieve all attendance records."""
+    return jsonify({
+        "success": True,
+        "count": len(attendance),
+        "data": attendance
+    }), 200
 
 if __name__ == "__main__":
     app.run(debug=True)
