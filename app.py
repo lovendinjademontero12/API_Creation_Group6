@@ -9,6 +9,13 @@ attendance = [
         "student_name": "Montero, Lovendin Jade D.",
         "event": "event ng mga pogi lang.",
         "status": "present",
+    },
+    {
+        "id": 2,
+        "student_id": "2024-0002",
+        "student_name": "Agustin, Kian Gabriel P.",
+        "event": "awarding of most handsome person in the world",
+        "status": "present",
     }
 ]
 
