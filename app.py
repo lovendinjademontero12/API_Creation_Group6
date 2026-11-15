@@ -39,15 +39,34 @@ def next_id():
 def home():
     return jsonify({"message": "Campus Event Attendance API is running"})
 
-if __name__ == "__main__":
-    app.run(debug=True)
+#KIAN PART GET METHOD TO LIST ALL ATTENDANCE
+@app.route("/attendance", methods=["GET"])
+def get_all_attendance():
+    """Retrieve all attendance records."""
+    return jsonify({
+        "success": True,
+        "count": len(attendance),
+        "data": attendance
+    }), 200
+
 
 #Update endpoint ni lovendin
 @app.route("/attendance/<int:record_id>", methods=["PUT"])
 def update_attendance(record_id):
     record = find_record(record_id)
-    record_data = request.get_json()
     if record is None:
         return jsonify({"error": "Record not found"}), 404
-    
+
+    data = request.get_json(silent=True)
+    if not data or "status" not in data:
+        return jsonify({"error": "status is required"}), 400
+
+    if data["status"] not in VALID_STATUSES:
+        return jsonify({"error": "Invalid status. Use: present, late, absent"}), 400
+
+    record["status"] = data["status"]
+
     return jsonify(record), 200
+
+if __name__ == "__main__":
+    app.run(debug=True)
