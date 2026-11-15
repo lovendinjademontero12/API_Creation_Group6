@@ -51,6 +51,7 @@ def get_all_attendance():
     }), 200
 
 
+<<<<<<< HEAD
 #Pogi na RUSSELL PART POST METHOD TO ADD ATTENDANCE
 @app.route('/post/attendance', methods=['POST'])
 def add_attendance():
@@ -98,3 +99,25 @@ def add_attendance():
 if __name__ == "__main__":
     app.run(debug=True)
 
+=======
+#Update endpoint ni lovendin
+@app.route("/attendance/<int:record_id>", methods=["PUT"])
+def update_attendance(record_id):
+    record = find_record(record_id)
+    if record is None:
+        return jsonify({"error": "Record not found"}), 404
+
+    data = request.get_json(silent=True)
+    if not data or "status" not in data:
+        return jsonify({"error": "status is required"}), 400
+
+    if data["status"] not in VALID_STATUSES:
+        return jsonify({"error": "Invalid status. Use: present, late, absent"}), 400
+
+    record["status"] = data["status"]
+
+    return jsonify(record), 200
+
+if __name__ == "__main__":
+    app.run(debug=True)
+>>>>>>> 5ce600026be4f0ee0dfa392ae84ae897bcbbdac2
