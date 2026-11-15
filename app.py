@@ -50,8 +50,6 @@ def get_all_attendance():
         "data": attendance
     }), 200
 
-
-<<<<<<< HEAD
 #Pogi na RUSSELL PART POST METHOD TO ADD ATTENDANCE
 @app.route('/post/attendance', methods=['POST'])
 def add_attendance():
@@ -95,11 +93,6 @@ def add_attendance():
         "attendance": new_record
     }), 201
 
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
-=======
 #Update endpoint ni lovendin
 @app.route("/attendance/<int:record_id>", methods=["PUT"])
 def update_attendance(record_id):
@@ -120,4 +113,4 @@ def update_attendance(record_id):
 
 if __name__ == "__main__":
     app.run(debug=True)
->>>>>>> 5ce600026be4f0ee0dfa392ae84ae897bcbbdac2
+
